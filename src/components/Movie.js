@@ -8,11 +8,11 @@ const Movie = (props) => {
   const { id } = useParams();
   const { push } = useHistory();
 
-  const movies = [];
+  // const movies = [];
   const movie = props.movies.find((movie) => movie.id === Number(id));
 
   const handleDelete = () => {
-      props.deleteMovie();
+      props.deleteMovie(movie.id);
       push("/movies");
   }
 
@@ -75,7 +75,7 @@ const Movie = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.movies,
+    movies: state.movieReducer.movies,
   };
 };
 export default connect(mapStateToProps, { deleteMovie })(Movie);
