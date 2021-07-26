@@ -7,7 +7,7 @@ import { removeFavorites } from "../actions/favoritesActions";
 const FavoriteMovieList = ({ favorites, removeFavorites }) => {
   return (
     <div className="col-xs savedContainer">
-      {console.log(favorites)}
+      {/* {console.log(favorites)} */}
       <h5>Favorite Movies</h5>
       {favorites.map((movie) => {
         return (

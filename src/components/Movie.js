@@ -3,17 +3,28 @@ import { useParams, useHistory } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { deleteMovie } from "../actions/movieActions";
-import { addFavorites } from "../actions/favoritesActions";
+import { addFavorites, removeFavorites } from "../actions/favoritesActions";
 
-const Movie = (props) => {
+const Movie = ({
+  movies,
+  removeFavorites,
+  deleteMovie,
+  addFavorites,
+  favorites,
+}) => {
   const { id } = useParams();
   const { push } = useHistory();
 
   // const movies = [];
-  const movie = props.movies.find((movie) => movie.id === Number(id));
+  // console.log(favorites);
+
+  const movie = movies.find((movie) => movie.id === Number(id));
+  const isFavorited = favorites.find((favMovie) => favMovie.id === Number(id));
+  // console.log(isFavorited);
 
   const handleDelete = () => {
-    props.deleteMovie(movie.id);
+    deleteMovie(movie.id);
+    removeFavorites(movie);
     push("/movies");
   };
 
@@ -56,12 +67,14 @@ const Movie = (props) => {
               </section>
 
               <section>
-                <span
-                  className="m-2 btn btn-dark"
-                  onClick={() => props.addFavorites(movie)}
-                >
-                  Favorite
-                </span>
+                {!isFavorited && (
+                  <span
+                    className="m-2 btn btn-dark"
+                    onClick={() => addFavorites(movie)}
+                  >
+                    Favorite
+                  </span>
+                )}
                 <span className="delete">
                   <input
                     type="button"
@@ -83,6 +96,11 @@ const mapStateToProps = (state) => {
   return {
     movies: state.movieReducer.movies,
     displayFavorites: state.favoritesReducer.displayFavorites,
+    favorites: state.favoritesReducer.favorites,
   };
 };
-export default connect(mapStateToProps, { deleteMovie, addFavorites })(Movie);
+export default connect(mapStateToProps, {
+  deleteMovie,
+  addFavorites,
+  removeFavorites,
+})(Movie);

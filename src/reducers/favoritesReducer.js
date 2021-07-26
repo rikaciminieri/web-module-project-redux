@@ -19,18 +19,13 @@ const reducer = (state = initialState, action) => {
         displayFavorites: !action.payload,
       };
     case ADD_FAVORITES:
-      if (
-        !JSON.stringify(state.favorites).includes(
-          JSON.stringify(action.payload)
-        )
-      ) {
+      if (!state.favorites.find((movie) => movie.id === action.payload.id)) {
         return {
           ...state,
           favorites: [...state.favorites, action.payload],
         };
-      } else {
-        return { state };
       }
+      return state;
 
     case REMOVE_FAVORITES:
       return {
