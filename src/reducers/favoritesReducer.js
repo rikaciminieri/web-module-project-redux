@@ -4,10 +4,10 @@ import {
   REMOVE_FAVORITES,
 } from "../actions/favoritesActions";
 
-import data from '../data';
+import data from "../data";
 
 const initialState = {
-  favorites: data,
+  favorites: [],
   displayFavorites: false,
 };
 
@@ -15,11 +15,23 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_FAVORITES:
       return {
-          ...state,
-          displayFavorites: !action.payload
+        ...state,
+        displayFavorites: !action.payload,
       };
     case ADD_FAVORITES:
-      return {};
+      if (
+        !JSON.stringify(state.favorites).includes(
+          JSON.stringify(action.payload)
+        )
+      ) {
+        return {
+          ...state,
+          favorites: [...state.favorites, action.payload],
+        };
+      } else {
+        return { state };
+      }
+
     case REMOVE_FAVORITES:
       return {};
     default:

@@ -5,3 +5,7 @@ export const REMOVE_FAVORITES = "REMOVE_FAVORITES";
 export const toggleFavorites = (favorites) => {
   return { type: TOGGLE_FAVORITES, payload: favorites };
 };
+
+export const addFavorites = (movie) => {
+  return { type: ADD_FAVORITES, payload: movie };
+};
